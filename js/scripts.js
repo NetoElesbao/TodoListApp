@@ -53,3 +53,16 @@ todoForm.addEventListener("submit", (event) => {
     CreateTodo(inputValue);
   }
 });
+
+document.addEventListener("click", (event) => {
+  if (event.target.classList.contains("finish-todo")) {
+    console.log("Clicou no finish");
+    event.target.closest("div").classList.toggle("done");
+  }
+  if (event.target.classList.contains("edit-todo")) {
+    console.log("Clicou no edit");
+  }
+  if (event.target.classList.contains("remove-todo")) {
+    event.target.closest("div").remove("todo");
+  }
+});
