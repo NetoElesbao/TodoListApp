@@ -3,7 +3,11 @@ const todoForm = document.querySelector("#todo-form");
 const todoInput = document.querySelector("#todo-input");
 const todoList = document.querySelector("#todo-list");
 const editForm = document.querySelector("#edit-form");
+const editInput = document.querySelector("#edit-input");
 const cancelEditbtn = document.querySelector("#cancel-edit-btn");
+
+let oldInputValue;
+// console.log(cancelEditbtn);
 
 // Funções
 const CreateTodo = (inputValue) => {
@@ -43,6 +47,26 @@ const CreateTodo = (inputValue) => {
   todoInput.value = "";
   todoInput.focus();
 };
+
+const ToggleForms = () => {
+  todoForm.classList.toggle("hide");
+  editForm.classList.toggle("hide");
+  todoList.classList.toggle("hide");
+};
+
+// Atualiza a tarefa
+const UpdateTodo = (newInputValue) => {
+  // Puxa todas as tarefas
+  const todoList = document.querySelectorAll(".todo");
+
+  // Procura a tarefa em questão
+  todoList.forEach((todo) => {
+    if (todo.querySelector("h3").innerText == oldInputValue) {
+      todo.querySelector("h3").innerText = newInputValue;
+    }
+  });
+};
+
 // Eventos
 todoForm.addEventListener("submit", (event) => {
   event.preventDefault();
@@ -55,14 +79,50 @@ todoForm.addEventListener("submit", (event) => {
 });
 
 document.addEventListener("click", (event) => {
-  if (event.target.classList.contains("finish-todo")) {
-    console.log("Clicou no finish");
-    event.target.closest("div").classList.toggle("done");
+  const targetElement = event.target;
+  const parentElement = targetElement.closest("div");
+
+  let todoTitle;
+
+  if (parentElement && parentElement.querySelector("h3")) {
+    // console.log("tem um pai e um h3");
+    todoTitle = parentElement.querySelector("h3").innerText;
+    // console.log(todoTitle);
   }
-  if (event.target.classList.contains("edit-todo")) {
-    console.log("Clicou no edit");
+
+  if (targetElement.classList.contains("finish-todo")) {
+    // console.log("Clicou no finish");
+    parentElement.classList.toggle("done");
   }
-  if (event.target.classList.contains("remove-todo")) {
-    event.target.closest("div").remove("todo");
+  if (targetElement.classList.contains("edit-todo")) {
+    // console.log("Clicou no edit");
+    ToggleForms();
+    editInput.value = todoTitle;
+    oldInputValue = editInput.value;
+    // debugger;
   }
+  if (targetElement.classList.contains("remove-todo")) {
+    parentElement.remove("todo");
+  }
+});
+
+cancelEditbtn.addEventListener("click", (event) => {
+  event.preventDefault();
+  ToggleForms();
+});
+
+editForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  //   console.log("Entrou no btn edit");
+  const newInputValue = editInput.value;
+  debugger;
+
+  // Verificar se a tarefa possui título
+  if (newInputValue) {
+    // console.log("Tem valor");
+    UpdateTodo(newInputValue);
+  } else {
+    // console.log("Não em valor");
+  }
+  ToggleForms();
 });

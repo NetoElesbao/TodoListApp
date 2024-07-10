@@ -10,7 +10,7 @@ body {
   background-image: url("../img/bg.jpg");
   background-position: center;
   background-size: cover;
-  /* min-height: 100vh; */
+  min-height: 100vh;
 }
 
 button {
