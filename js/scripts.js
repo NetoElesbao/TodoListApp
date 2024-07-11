@@ -5,6 +5,11 @@ const todoList = document.querySelector("#todo-list");
 const editForm = document.querySelector("#edit-form");
 const editInput = document.querySelector("#edit-input");
 const cancelEditbtn = document.querySelector("#cancel-edit-btn");
+const searchInput = document.querySelector("#search-input");
+const eraseBtn = document.querySelector("#erase-button");
+const filterSelect = document.querySelector("#filter-select");
+console.log(eraseBtn);
+// debugger;
 
 let oldInputValue;
 // console.log(cancelEditbtn);
@@ -61,8 +66,26 @@ const UpdateTodo = (newInputValue) => {
 
   // Procura a tarefa em questão
   todoList.forEach((todo) => {
-    if (todo.querySelector("h3").innerText == oldInputValue) {
-      todo.querySelector("h3").innerText = newInputValue;
+    let todoTitle = todo.querySelector("h3");
+
+    if (todoTitle.innerText === oldInputValue) {
+      todoTitle.innerText = newInputValue;
+    }
+  });
+};
+
+const GetSearchTodos = (search) => {
+  const todoList = document.querySelectorAll(".todo");
+  //   debugger;
+  // Procura a tarefa em questão
+  const normalizedSearch = search.toLowerCase();
+  todoList.forEach((todo) => {
+    let todoTitle = todo.querySelector("h3").innerText.toLowerCase();
+
+    todo.style.display = "flex";
+
+    if (!todoTitle.includes(normalizedSearch)) {
+      todo.style.display = "none";
     }
   });
 };
@@ -98,7 +121,7 @@ document.addEventListener("click", (event) => {
     // console.log("Clicou no edit");
     ToggleForms();
     editInput.value = todoTitle;
-    oldInputValue = editInput.value;
+    oldInputValue = todoTitle;
     // debugger;
   }
   if (targetElement.classList.contains("remove-todo")) {
@@ -115,7 +138,6 @@ editForm.addEventListener("submit", (event) => {
   event.preventDefault();
   //   console.log("Entrou no btn edit");
   const newInputValue = editInput.value;
-  debugger;
 
   // Verificar se a tarefa possui título
   if (newInputValue) {
@@ -125,4 +147,22 @@ editForm.addEventListener("submit", (event) => {
     // console.log("Não em valor");
   }
   ToggleForms();
+});
+
+// Faz a busca de tarefas
+searchInput.addEventListener("keyup", (event) => {
+  //   console.log(event.target.value);
+  const search = event.target.value;
+  //   debugger;
+
+  GetSearchTodos(search);
+});
+
+// Limpa a barra de pesquisa
+eraseBtn.addEventListener("click", (event) => {
+  event.preventDefault();
+
+  searchInput.value = "";
+
+  searchInput.dispatchEvent(new Event("keyup"));
 });
