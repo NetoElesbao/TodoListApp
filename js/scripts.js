@@ -8,9 +8,8 @@ const cancelEditbtn = document.querySelector("#cancel-edit-btn");
 const searchInput = document.querySelector("#search-input");
 const eraseBtn = document.querySelector("#erase-button");
 const filterSelect = document.querySelector("#filter-select");
-console.log(eraseBtn);
-// debugger;
 
+// Variável global pra pegar o antigo titulo da tarefa
 let oldInputValue;
 // console.log(cancelEditbtn);
 
@@ -76,18 +75,48 @@ const UpdateTodo = (newInputValue) => {
 
 const GetSearchTodos = (search) => {
   const todoList = document.querySelectorAll(".todo");
-  //   debugger;
+
   // Procura a tarefa em questão
   const normalizedSearch = search.toLowerCase();
   todoList.forEach((todo) => {
     let todoTitle = todo.querySelector("h3").innerText.toLowerCase();
 
+    // Reinicia tudo e torna a tarefa visível de novo temporariamente
     todo.style.display = "flex";
 
+    // verifica se esta tarefa em questão não possui caracteres em comum enviados pelo usuário
     if (!todoTitle.includes(normalizedSearch)) {
+      // Define como invisível a tarefa que não possui caracteres em comum
       todo.style.display = "none";
     }
   });
+};
+
+// Função que verifica o valor selecionado pelo usuário no filtro
+const FilterTodos = (filterValue) => {
+  const todoList = document.querySelectorAll(".todo");
+
+  switch (filterValue) {
+    case "all": // caso seja para mostrar todas as tarefas
+      todoList.forEach((todo) => (todo.style.display = "flex"));
+      break;
+    case "done": // caso seja para mostrar todas as tarefas concluídas
+      todoList.forEach((todo) =>
+        todo.classList.contains("done")
+          ? (todo.style.display = "flex")
+          : (todo.style.display = "none")
+      );
+      break;
+    case "todo": // caso seja para mostrar todas as tarefas pendentes
+      todoList.forEach((todo) =>
+        !todo.classList.contains("done")
+          ? (todo.style.display = "flex")
+          : (todo.style.display = "none")
+      );
+      break;
+    default:
+      break;
+  }
 };
 
 // Eventos
@@ -108,21 +137,16 @@ document.addEventListener("click", (event) => {
   let todoTitle;
 
   if (parentElement && parentElement.querySelector("h3")) {
-    // console.log("tem um pai e um h3");
     todoTitle = parentElement.querySelector("h3").innerText;
-    // console.log(todoTitle);
   }
 
   if (targetElement.classList.contains("finish-todo")) {
-    // console.log("Clicou no finish");
     parentElement.classList.toggle("done");
   }
   if (targetElement.classList.contains("edit-todo")) {
-    // console.log("Clicou no edit");
     ToggleForms();
     editInput.value = todoTitle;
     oldInputValue = todoTitle;
-    // debugger;
   }
   if (targetElement.classList.contains("remove-todo")) {
     parentElement.remove("todo");
@@ -136,24 +160,19 @@ cancelEditbtn.addEventListener("click", (event) => {
 
 editForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  //   console.log("Entrou no btn edit");
   const newInputValue = editInput.value;
 
   // Verificar se a tarefa possui título
   if (newInputValue) {
-    // console.log("Tem valor");
     UpdateTodo(newInputValue);
   } else {
-    // console.log("Não em valor");
   }
   ToggleForms();
 });
 
 // Faz a busca de tarefas
 searchInput.addEventListener("keyup", (event) => {
-  //   console.log(event.target.value);
   const search = event.target.value;
-  //   debugger;
 
   GetSearchTodos(search);
 });
@@ -163,6 +182,13 @@ eraseBtn.addEventListener("click", (event) => {
   event.preventDefault();
 
   searchInput.value = "";
-
+  // Dispara um evento no input
   searchInput.dispatchEvent(new Event("keyup"));
+});
+
+// Filtro
+filterSelect.addEventListener("change", (event) => {
+  const filterValue = event.target.value;
+
+  FilterTodos(filterValue);
 });
