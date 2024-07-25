@@ -126,7 +126,7 @@ const FilterTodos = (filterValue) => {
 
 // Eventos ------------------------------------------------------------------------------------------------------------------------------
 todoForm.addEventListener("submit", (event) => {
-  debugger;
+  // debugger;
   event.preventDefault();
 
   const inputValue = todoInput.value;
@@ -202,12 +202,21 @@ filterSelect.addEventListener("change", (event) => {
 
 // Local storage
 
-// Pega os todos do localStorage e retorna
+// Pega as tarefas do localStorage e retorna
 const getTodosLocalStorage = () => {
   const todosLSConverted = JSON.parse(localStorage.getItem("todos")) || [];
   console.log(todosLSConverted);
 
   return todosLSConverted;
+};
+
+const loadTodos = () => {
+  // debugger;
+  const allTodosLS = getTodosLocalStorage();
+
+  allTodosLS.forEach((todo) => {
+    CreateTodo(todo.text, todo.done, 0);
+  });
 };
 
 const saveTodoInLocalStorage = (text) => {
@@ -220,3 +229,5 @@ const saveTodoInLocalStorage = (text) => {
   // Sobe o LS com a nova tarefa adicionada
   localStorage.setItem("todos", JSON.stringify(allTodosLS));
 };
+
+loadTodos();
