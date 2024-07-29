@@ -136,6 +136,7 @@ todoForm.addEventListener("submit", (event) => {
   }
 });
 
+// Detecta a respectiva opção da respectiva tarefa clicada pelo usuário
 document.addEventListener("click", (event) => {
   const targetElement = event.target;
   const parentElement = targetElement.closest("div");
@@ -156,6 +157,8 @@ document.addEventListener("click", (event) => {
   }
   if (targetElement.classList.contains("remove-todo")) {
     parentElement.remove("todo");
+
+    removeTodoLocalStorage(todoTitle);
   }
 });
 
@@ -211,7 +214,6 @@ const getTodosLocalStorage = () => {
 };
 
 const loadTodos = () => {
-  // debugger;
   const allTodosLS = getTodosLocalStorage();
 
   allTodosLS.forEach((todo) => {
@@ -228,6 +230,15 @@ const saveTodoInLocalStorage = (text) => {
 
   // Sobe o LS com a nova tarefa adicionada
   localStorage.setItem("todos", JSON.stringify(allTodosLS));
+};
+
+// Remove a tarefa do localStorage
+const removeTodoLocalStorage = (text) => {
+  const allTodosLS = getTodosLocalStorage();
+
+  const filteredTodos = allTodosLS.filter((todo) => todo.text !== text);
+
+  localStorage.setItem("todos", JSON.stringify(filteredTodos));
 };
 
 loadTodos();
