@@ -1,0 +1,166 @@
+/* Estilo global */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Helvetica, sans-serif;
+  color: #333;
+}
+
+/* Corpo */
+body {
+  background-image: url("../img/backgroundMontains.jpg");
+  background-position: center;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+/* Configurações gerais dos botões */
+
+button {
+  padding: 0.3rem 0.6rem;
+  background-color: #fdfdfd;
+  border: 2px solid #102f5e;
+  color: #102f5e;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+button:hover {
+  padding: 0.3rem 0.6rem;
+  background-color: #102f5e;
+  border: 2px solid #102f5e;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.4;
+}
+
+button:hover > i {
+  font-weight: bold;
+  color: #fff;
+}
+
+button i {
+  color: #102f5e;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+/* Configurações gerais dos inputs e select */
+input,
+select {
+  padding: 0.3rem 0.6rem;
+}
+
+/* Classe ocultadora */
+.hide {
+  display: none;
+}
+
+/* Estilos da main */
+.main-container {
+  max-width: 450px;
+  margin: 3rem auto;
+  border-radius: 15px;
+  padding: 1.5rem;
+  background-color: #fdfdfd;
+}
+
+.main-container header {
+  text-align: center;
+  padding: 0 1rem 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Estilos de add e edit */
+#add-todo,
+#edit-todo {
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+#add-todo p,
+#edit-todo p {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.form-control {
+  display: flex;
+}
+
+.form-control input {
+  margin-right: 0.3rem;
+}
+
+#cancel-btn {
+  margin-top: 1rem;
+}
+
+/* Estilos de search e filter */
+#toolbar {
+  display: flex;
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+#toolbar h4 {
+  margin-bottom: 0.5rem;
+}
+
+#search {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #ccc;
+  margin-right: 1rem;
+  padding-right: 1rem;
+}
+
+#search form {
+  display: flex;
+}
+
+#search input {
+  margin-right: 0.3rem;
+}
+
+#filter {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+}
+
+#filter select {
+  flex: 1;
+}
+
+/* Estilo das tarefas da lista */
+
+.todo {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  transition: 0.3s;
+}
+
+.todo h3 {
+  flex: 1;
+  font-size: 0.9rem;
+}
+
+.todo button {
+  margin-right: 0.3rem;
+}
+
+.done {
+  background-color: #395169;
+}
+
+.done h3 {
+  color: #fff;
+  font-style: italic;
+  text-decoration: line-through;
+}

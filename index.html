@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cópia</title>
+
+    <!-- Font awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Favicon -->
+    <link
+      rel="shortcut icon"
+      href="img/favicon-32x32.png"
+      type="image/x-icon"
+    />
+
+    <!-- Estilo -->
+    <link rel="stylesheet" href="css/styles.css" />
+
+    <!-- Javascript -->
+    <script src="js/scripts.js" defer></script>
+  </head>
+  <body>
+    <main class="main-container">
+      <header id="header-contaier">
+        <h1>TodoListApp</h1>
+      </header>
+      <form action="" id="todo-form">
+        <div id="add-todo">
+          <div id="add-todo-header">
+            <p>Adicione a sua tarefa:</p>
+          </div>
+          <div class="form-control">
+            <input
+              type="text"
+              id="todo-input"
+              placeholder="O que você vai fazer?"
+            />
+            <button id="submit">
+              <i class="fa-thin fa-plus"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+      <form id="edit-form" class="hide">
+        <div id="edit-todo">
+          <div id="edit-form-header">
+            <p>Edite a sua tarefa:</p>
+          </div>
+          <div class="form-control">
+            <input type="text" id="edit-input" />
+            <button id="submit">
+              <i class="fa-solid fa-check-double"></i>
+            </button>
+          </div>
+          <button id="cancel-btn">Cancelar</button>
+        </div>
+      </form>
+      <div id="toolbar">
+        <div id="search">
+          <h4>Pesquisar:</h4>
+          <form action="">
+            <input type="text" id="search-input" placeholder="Buscar" />
+            <button id="erase-btn">
+              <i class="fa-solid fa-delete-left"> </i>
+            </button>
+          </form>
+        </div>
+        <div id="filter">
+          <h4>Filtrar:</h4>
+          <select id="filter-select">
+            <option value="all">Todos</option>
+            <option value="done">Feitos</option>
+            <option value="todo">A fazer</option>
+          </select>
+        </div>
+      </div>
+      <div id="todo-list"></div>
+    </main>
+  </body>
+</html>
