@@ -42,18 +42,16 @@ const CreateTodo = (title, done = false, save = true) => {
   div.appendChild(removeBtn);
 
   // Cria no localStorage
-  // debugger;
   if (done) {
     div.classList.add("done");
   }
 
   if (save) {
-    // debugger;
     SaveLocalStorage({ title, done });
   }
 
   todoList.appendChild(div);
-  // debugger;
+
   todoInput.value = "";
   todoInput.focus();
 };
@@ -77,6 +75,7 @@ const UpdateTodo = (newTitle) => {
     // Busca a tarefa com o título que será atualizado
     if (todoTitle.innerText === oldTitle) {
       todoTitle.innerText = newTitle;
+      UpdateTitleTodoLocalStorage(newTitle, oldTitle);
     }
   });
 };
@@ -86,7 +85,7 @@ const GetSearchTodos = (search) => {
 
   console.log(normalizedSearch);
 
-  // Pega todos as tarefas
+  // Pega todas as tarefas
   const todos = todoList.querySelectorAll(".todo");
 
   todos.forEach((todo) => {
@@ -143,14 +142,12 @@ todoForm.addEventListener("submit", (event) => {
   const inputValue = todoInput.value;
 
   if (inputValue) {
-    // debugger;
     CreateTodo(inputValue);
   }
 });
 
 // Detecta qual foi o botão clicado pelo usuário e define o fluxo específico com base nessa escolha.
 document.addEventListener("click", (event) => {
-  // debugger;
   const targetElement = event.target;
   const parentElement = event.target.closest("div");
 
@@ -162,15 +159,18 @@ document.addEventListener("click", (event) => {
 
   if (targetElement.classList.contains("done-todo")) {
     parentElement.classList.toggle("done");
+    UpdateStatusTodoLocalStorage(todoTitle);
   }
   if (targetElement.classList.contains("edit-todo")) {
     ToggleForms();
-    // debugger;
+
     editInput.value = todoTitle;
     oldTitle = todoTitle;
   }
   if (targetElement.classList.contains("remove-todo")) {
     parentElement.remove("todo");
+
+    RemoveTodoLocalStorage(todoTitle);
   }
 });
 
@@ -182,7 +182,6 @@ cancelBtn.addEventListener("click", (event) => {
 
 // Atualiza tarefa
 editForm.addEventListener("submit", (event) => {
-  // debugger;
   event.preventDefault();
 
   const newTitle = editInput.value;
@@ -195,8 +194,6 @@ editForm.addEventListener("submit", (event) => {
 
 // Pesquisa as tarefas
 searchInput.addEventListener("keyup", (event) => {
-  // debugger;
-
   const search = event.target.value;
 
   GetSearchTodos(search);
@@ -218,7 +215,6 @@ filterSelect.addEventListener("change", (event) => {
   console.log(event.target.value);
 
   const filterValue = event.target.value;
-  // debugger;
 
   FilterSearch(filterValue);
 });
@@ -241,7 +237,36 @@ const SaveLocalStorage = (text) => {
   localStorage.setItem("todos", JSON.stringify(todosLS));
 };
 
+// Atualiza o status da tarefa no localStorage
+const UpdateStatusTodoLocalStorage = (todoTitle) => {
+  const todosLS = GetLocalStorage();
 
+  todosLS.map((todo) => {
+    todo.title === todoTitle ? (todo.done = !todo.done) : null;
+  });
+
+  localStorage.setItem("todos", JSON.stringify(todosLS));
+};
+
+// Atualiza o título da tarefa no localStorage
+const UpdateTitleTodoLocalStorage = (newTitle, oldTitle) => {
+  const todosLS = GetLocalStorage();
+
+  todosLS.map((todo) => {
+    todo.title === oldTitle ? (todo.title = newTitle) : null;
+  });
+
+  localStorage.setItem("todos", JSON.stringify(todosLS));
+};
+
+// Remove a tarefa do localStorage
+const RemoveTodoLocalStorage = (title) => {
+  const todosLS = GetLocalStorage();
+
+  const todosLSFilted = todosLS.filter((todo) => todo.title !== title);
+
+  localStorage.setItem("todos", JSON.stringify(todosLSFilted));
+};
 
 // Carrega as tarefas do localStorage e as exibe na tela
 const LoadTodos = () => {
@@ -253,5 +278,3 @@ const LoadTodos = () => {
 };
 
 LoadTodos();
-
-
